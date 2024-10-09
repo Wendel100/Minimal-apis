@@ -1,7 +1,16 @@
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using Minimals_Apis.Dominio.DTOs;
+using Minimals_Apis.Dominio.Infraestrutura.Db.DbContexto;
 
 var builder = WebApplication.CreateBuilder(args);
 var app = builder.Build();
+
+builder.Services.AddDbContext<DbContexto>(Options=>{
+Options.UseSqlServer(
+app.Configuration.GetConnectionString("MinhaConexao")
+);
+});
 
 app.MapGet("/", () => "Hello World!");
 app.MapGet("/login",(LoginDTOs loginDTO)=>{
